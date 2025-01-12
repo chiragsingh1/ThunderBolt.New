@@ -1,25 +1,31 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import Header from "@/components/custom/Header";
+import { MessagesContext } from "@/context/MessagesContext";
 
 interface Props {
     children: ReactNode;
 }
 
-const ShadCNDarkThemeProvider = ({ children }: Props) => {
+const Provider = ({ children }: Props) => {
+    const [messages, setMessages] = useState("");
     return (
         <div>
-            <NextThemesProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-            >
-                {children}
-            </NextThemesProvider>
+            <MessagesContext.Provider value={{ messages, setMessages }}>
+                <NextThemesProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Header />
+                    {children}
+                </NextThemesProvider>
+            </MessagesContext.Provider>
         </div>
     );
 };
 
-export default ShadCNDarkThemeProvider;
+export default Provider;

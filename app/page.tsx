@@ -1,10 +1,10 @@
+import Hero from "@/components/custom/Hero";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
     return (
         <div>
-            Hello World
-            <Button variant={"outline"}>Click</Button>
+            <Hero />
         </div>
     );
 }
