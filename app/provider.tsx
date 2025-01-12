@@ -1,19 +1,46 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import Header from "@/components/custom/Header";
 import { MessagesContext } from "@/context/MessagesContext";
 import { UserContext } from "@/context/UserContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useConvex } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
-interface Props {
-    children: ReactNode;
+interface UserDetail {
+    _id: string;
+    _creationTime: number;
+    name: string;
+    email: string;
+    picture: string;
+    uid: string;
 }
 
-const Provider = ({ children }: Props) => {
+const Provider = ({ children }: { children: ReactNode }) => {
     const [messages, setMessages] = useState(null);
-    const [userDetail, setUserDetail] = useState(null);
+    const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
+
+    const convex = useConvex();
+
+    const IsAuthenticated = async () => {
+        if (typeof window !== "undefined") {
+            const user = JSON.parse(`${localStorage.getItem("user")}`);
+
+            // fetch user from db
+            if (user) {
+                const result = await convex.query(api.users.GetUser, {
+                    email: user.email,
+                });
+                setUserDetail(result);
+            }
+        }
+    };
+
+    useEffect(() => {
+        IsAuthenticated();
+    }, []);
 
     return (
         <GoogleOAuthProvider
