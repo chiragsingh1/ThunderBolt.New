@@ -1,16 +1,25 @@
 "use client";
 
 import { MessagesContext } from "@/context/MessagesContext";
+import { UserContext } from "@/context/UserContext";
 import lookup from "@/data/lookup";
 import { ArrowRight, Link } from "lucide-react";
 import { useContext, useState } from "react";
+import LoginDialog from "./LoginDialog";
 
 const Hero = () => {
     const [userInput, setUserInput] = useState("");
+    const [openDialog, setOpenDialog] = useState(false);
 
     const { messages, setMessages }: any = useContext(MessagesContext);
+    const { userDetail, setUserDetail }: any = useContext(UserContext);
 
     const onGenerate = (input: string) => {
+        if (!userDetail?.name) {
+            setOpenDialog(true);
+            return;
+        }
+
         setMessages({
             role: "user",
             content: input,
@@ -20,14 +29,14 @@ const Hero = () => {
     return (
         <div className="min-h-screen flex flex-col justify-center -mt-20">
             <div className="flex flex-col items-center gap-2 w-full px-4 md:px-6">
-                <h2 className="font-bold text-4xl text-center">
+                <h2 className="font-bold text-5xl text-center">
                     {lookup.HERO_HEADING}
                 </h2>
                 <p className="text-gray-400 font-medium text-center max-w-xl mx-auto">
                     {lookup.HERO_DESC}
                 </p>
 
-                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-gray-700">
+                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-gray-800">
                     <div className="flex gap-2">
                         <textarea
                             placeholder={lookup.INPUT_PLACEHOLDER}
@@ -57,6 +66,10 @@ const Hero = () => {
                     </h2>
                 ))}
             </div>
+            <LoginDialog
+                openDialog={openDialog}
+                closeDialog={(v) => setOpenDialog(v)}
+            />
         </div>
     );
 };
