@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useContext } from "react";
+import { UserContext } from "@/context/UserContext";
 
 const Header = () => {
+    const { userDetail, setUserDetail } = useContext(UserContext);
+
     return (
         <div className="flex p-4 justify-between items-center">
             <div className="flex gap-2 items-center group cursor-pointer">
@@ -16,12 +20,14 @@ const Header = () => {
                     ThunderBolt.New
                 </h2>
             </div>
-            <div className="flex gap-5">
-                <Button variant="ghost">Sign In</Button>
-                <Button className="hover:bg-blue-900 transition-colors bg-blue-500 text-white">
-                    Get Started
-                </Button>
-            </div>
+            {!userDetail?.name && (
+                <div className="flex gap-5">
+                    <Button variant="ghost">Sign In</Button>
+                    <Button className="hover:bg-blue-900 transition-colors bg-blue-500 text-white">
+                        Get Started
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

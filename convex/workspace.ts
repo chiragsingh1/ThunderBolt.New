@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { GenericId, v } from "convex/values";
 import { mutation } from "./_generated/server";
 
 export const CreateWorkspace = mutation({
@@ -9,7 +9,7 @@ export const CreateWorkspace = mutation({
     handler: async (ctx, args) => {
         const workspaceId = await ctx.db.insert("workspace", {
             messages: args.messages,
-            user: args.user,
+            user: args.user as GenericId<"users">,
         });
         return workspaceId;
     },

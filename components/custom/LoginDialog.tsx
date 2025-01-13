@@ -21,7 +21,7 @@ interface Props {
 }
 
 const LoginDialog = ({ openDialog, closeDialog }: Props) => {
-    const { userDetail, setUserDetail }: any = useContext(UserContext);
+    const { userDetail, setUserDetail } = useContext(UserContext);
 
     const CreateUser = useMutation(api.users.CreateUser);
 

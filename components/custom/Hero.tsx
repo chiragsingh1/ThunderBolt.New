@@ -15,7 +15,7 @@ const Hero = () => {
     const [openDialog, setOpenDialog] = useState(false);
 
     const { messages, setMessages }: any = useContext(MessagesContext);
-    const { userDetail, setUserDetail }: any = useContext(UserContext);
+    const { userDetail, setUserDetail } = useContext(UserContext);
 
     const CreateWorkspace = useMutation(api.workspace.CreateWorkspace);
 

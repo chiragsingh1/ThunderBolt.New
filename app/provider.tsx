@@ -4,22 +4,18 @@ import { ReactNode, useEffect, useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import Header from "@/components/custom/Header";
 import { MessagesContext } from "@/context/MessagesContext";
-import { UserContext } from "@/context/UserContext";
+import { UserContext, UserDetail } from "@/context/UserContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
-interface UserDetail {
-    _id: string;
-    _creationTime: number;
-    name: string;
-    email: string;
-    picture: string;
-    uid: string;
+interface Message {
+    role: string;
+    content: string;
 }
 
 const Provider = ({ children }: { children: ReactNode }) => {
-    const [messages, setMessages] = useState(null);
+    const [messages, setMessages] = useState<Message | null>(null);
     const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
 
     const convex = useConvex();
