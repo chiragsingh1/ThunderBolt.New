@@ -5,14 +5,9 @@ export interface Message {
     content: string;
 }
 
-// export interface Messages {
-//     messages: Message[];
-//     setMessages: Dispatch<SetStateAction<Message[]>>;
-// }
-
 interface MessageContextType {
     messages: Message[];
-    setMessages: (messages: Message[]) => void;
+    setMessages: Dispatch<SetStateAction<Message[]>>;
 }
 
 export const MessagesContext = createContext<MessageContextType>({

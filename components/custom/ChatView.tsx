@@ -1,22 +1,25 @@
 "use client";
 
-import { MessagesContext } from "@/context/MessagesContext";
+import { Message, MessagesContext } from "@/context/MessagesContext";
 import { UserContext } from "@/context/UserContext";
 import { api } from "@/convex/_generated/api";
 import colors from "@/data/colors";
 import lookup from "@/data/lookup";
-import { useConvex } from "convex/react";
+import axios from "axios";
+import { useConvex, useMutation } from "convex/react";
 import { GenericId } from "convex/values";
-import { ArrowRight, Link } from "lucide-react";
+import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import Prompt from "@/data/prompt";
 
 const ChatView = () => {
     const { id } = useParams();
     const convex = useConvex();
 
     const [userInput, setUserInput] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const { messages, setMessages } = useContext(MessagesContext);
     const { userDetail, setUserDetail } = useContext(UserContext);
@@ -28,17 +31,49 @@ const ChatView = () => {
         setMessages(result?.messages);
     };
 
+    const UpdateMessages = useMutation(api.workspace.UpdateMessages);
+
+    const GetAIResponse = async () => {
+        setLoading(true);
+        const prompt = Prompt.CHAT_PROMPT + JSON.stringify(messages);
+        const result = await axios.post("/api/ai", {
+            prompt,
+        });
+        // console.log(result.data.result);
+        const AIresponse = { content: result.data.result, role: "ai" };
+        setMessages((prev) => [...prev, AIresponse]);
+        await UpdateMessages({
+            messages: [...messages, AIresponse],
+            workspaceId: id as GenericId<"workspace">,
+        });
+        setLoading(false);
+    };
+
+    const onGenerate = async (input: any) => {
+        setMessages((prev) => [...prev, { content: input, role: "user" }]);
+        setUserInput("");
+    };
+
     useEffect(() => {
         id && GetWorkspaceData();
     }, [id]);
 
+    useEffect(() => {
+        if (messages?.length > 0) {
+            const role = messages[messages.length - 1].role;
+            if (role === "user") {
+                GetAIResponse();
+            }
+        }
+    }, [messages]);
+
     return (
         <div className="relative h-[85vh] flex flex-col">
-            <div className="flex-1 overflow-y-scroll">
+            <div className="flex-1 overflow-y-scroll scrollbar-hide">
                 {messages?.map((message, index) => (
                     <div
                         key={index}
-                        className="p-3 px-5 rounded-lg mb-2 flex gap-3 items-center"
+                        className="p-3 px-5 rounded-lg mb-2 flex gap-3 items-center leading-6"
                         style={{ backgroundColor: colors.BACKGROUND }}
                     >
                         {message?.role === "user" && (
@@ -53,6 +88,15 @@ const ChatView = () => {
                         <h2>{message.content}</h2>
                     </div>
                 ))}
+                {loading && (
+                    <div
+                        className="p-3 px-5 rounded-lg mb-2 flex gap-3 items-center"
+                        style={{ backgroundColor: colors.BACKGROUND }}
+                    >
+                        <Loader2Icon className="animate-spin h-5 w-5" />
+                        <h2>Generating response....</h2>
+                    </div>
+                )}
             </div>
             {/* Input Section */}
             <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-gray-800">
@@ -61,10 +105,13 @@ const ChatView = () => {
                         placeholder={lookup.INPUT_PLACEHOLDER}
                         className="outline-none bg-transparent w-full h-32 max-h-56 resize-none"
                         onChange={(e) => setUserInput(e.target.value)}
+                        value={userInput}
                     />
                     {userInput && (
                         <ArrowRight
-                            onClick={() => {}}
+                            onClick={() => {
+                                onGenerate(userInput);
+                            }}
                             className="bg-blue-500 p-2 h-10 w-10 rounded-md cursor-pointer text-white hover:bg-blue-600 transition-colors"
                         />
                     )}
