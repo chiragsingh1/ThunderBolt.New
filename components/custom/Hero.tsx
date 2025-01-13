@@ -1,6 +1,6 @@
 "use client";
 
-import { MessagesContext } from "@/context/MessagesContext";
+import { Message, MessagesContext } from "@/context/MessagesContext";
 import { UserContext } from "@/context/UserContext";
 import lookup from "@/data/lookup";
 import { ArrowRight, Link } from "lucide-react";
@@ -14,7 +14,7 @@ const Hero = () => {
     const [userInput, setUserInput] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
 
-    const { messages, setMessages }: any = useContext(MessagesContext);
+    const { messages, setMessages } = useContext(MessagesContext);
     const { userDetail, setUserDetail } = useContext(UserContext);
 
     const CreateWorkspace = useMutation(api.workspace.CreateWorkspace);
@@ -27,11 +27,11 @@ const Hero = () => {
             return;
         }
 
-        const msg = {
+        const msg: Message = {
             role: "user",
             content: input,
         };
-        setMessages(msg);
+        setMessages([...messages, msg]);
 
         const workspaceId = await CreateWorkspace({
             user: userDetail._id,
