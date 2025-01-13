@@ -14,6 +14,8 @@ import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import Prompt from "@/data/prompt";
 
+import ReactMarkdown from "react-markdown";
+
 const ChatView = () => {
     const { id } = useParams();
     const convex = useConvex();
@@ -73,7 +75,7 @@ const ChatView = () => {
                 {messages?.map((message, index) => (
                     <div
                         key={index}
-                        className="p-3 px-5 rounded-lg mb-2 flex gap-3 items-center leading-6"
+                        className="p-3 px-5 rounded-lg mb-2 flex gap-3 items-center leading-7"
                         style={{ backgroundColor: colors.BACKGROUND }}
                     >
                         {message?.role === "user" && (
@@ -85,7 +87,9 @@ const ChatView = () => {
                                 className="rounded-full"
                             />
                         )}
-                        <h2>{message.content}</h2>
+                        <ReactMarkdown className="flex flex-col">
+                            {message.content}
+                        </ReactMarkdown>
                     </div>
                 ))}
                 {loading && (

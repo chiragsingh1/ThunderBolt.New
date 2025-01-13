@@ -6,9 +6,11 @@ export default {
         "Create Quizz App On History",
         "Create Login Signup Screen",
     ],
+
     HERO_HEADING: "What do you want to build?",
     HERO_DESC: "Prompt, run, edit, and deploy full-stack web apps.",
     INPUT_PLACEHOLDER: "What you want to build?",
+
     SIGNIN_HEADING: "Continue With ThunderBolt.New ⚡",
     SIGNIN_SUBHEADING:
         "To use ThunderBolt.New you must log into an existing account or create one.",
@@ -31,14 +33,12 @@ export default {
 </html>`,
         },
         "/App.css": {
-            code: `
-            @tailwind base;
+            code: `@tailwind base;
 @tailwind components;
 @tailwind utilities;`,
         },
         "/tailwind.config.js": {
-            code: `
-            /** @type {import('tailwindcss').Config} */
+            code: `/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -57,10 +57,10 @@ const config = {
   },
 };
 
-export default config;
-`,
+export default config;`,
         },
     },
+
     DEPENDENCY: {
         postcss: "^8",
         tailwindcss: "^3.4.1",
@@ -76,8 +76,10 @@ export default config;
         "react-chartjs-2": "^5.3.0",
         "chart.js": "^4.4.7",
     },
+
     PRICING_DESC:
         "Start with a free account to speed up your workflow on public projects or boost your entire team with instantly-opening production environments.",
+
     PRICING_OPTIONS: [
         {
             name: "Basic",
