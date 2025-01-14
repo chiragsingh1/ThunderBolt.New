@@ -49,7 +49,8 @@ const Provider = ({ children }: { children: ReactNode }) => {
                     >
                         <Header />
                         <SidebarProvider defaultOpen={false}>
-                            <AppSidebar /> {children}
+                            <AppSidebar />
+                            {children}
                         </SidebarProvider>
                     </NextThemesProvider>
                 </MessagesContext.Provider>

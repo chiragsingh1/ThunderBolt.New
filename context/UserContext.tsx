@@ -8,6 +8,7 @@ export interface UserDetail {
     email: string;
     picture: string;
     uid: string;
+    token?: number;
 }
 
 interface UserContextType {

@@ -1,6 +1,5 @@
 "use client";
-
-import { Message, MessagesContext } from "@/context/MessagesContext";
+import { MessagesContext } from "@/context/MessagesContext";
 import { UserContext } from "@/context/UserContext";
 import { api } from "@/convex/_generated/api";
 import colors from "@/data/colors";
@@ -13,13 +12,16 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import Prompt from "@/data/prompt";
-
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
+import { countToken } from "@/lib/utils";
 
 const ChatView = () => {
     const { id } = useParams();
     const convex = useConvex();
+    const UpdateMessages = useMutation(api.workspace.UpdateMessages);
+    const UpdateTokens = useMutation(api.users.UpdateToken);
+
     const { toggleSidebar } = useSidebar();
 
     const [userInput, setUserInput] = useState("");
@@ -35,8 +37,6 @@ const ChatView = () => {
         setMessages(result?.messages);
     };
 
-    const UpdateMessages = useMutation(api.workspace.UpdateMessages);
-
     const GetAIResponse = async () => {
         setLoading(true);
         const prompt = Prompt.CHAT_PROMPT + JSON.stringify(messages);
@@ -46,10 +46,21 @@ const ChatView = () => {
         // console.log(result.data.result);
         const AIresponse = { content: result.data.result, role: "ai" };
         setMessages((prev) => [...prev, AIresponse]);
+
         await UpdateMessages({
             messages: [...messages, AIresponse],
             workspaceId: id as GenericId<"workspace">,
         });
+
+        const token =
+            Number(userDetail?.token) -
+            Number(countToken(JSON.stringify(AIresponse)));
+
+        await UpdateTokens({
+            userId: userDetail?._id as GenericId<"users">,
+            tokenCount: token,
+        });
+
         setLoading(false);
     };
 

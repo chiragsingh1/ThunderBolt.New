@@ -1,8 +1,10 @@
 "use client";
 import { MessagesContext } from "@/context/MessagesContext";
+import { UserContext } from "@/context/UserContext";
 import { api } from "@/convex/_generated/api";
 import lookup from "@/data/lookup";
 import prompt from "@/data/prompt";
+import { countToken } from "@/lib/utils";
 import {
     SandpackProvider,
     SandpackLayout,
@@ -25,8 +27,10 @@ const CodeView = () => {
     const { id } = useParams();
 
     const { messages, setMessages } = useContext(MessagesContext);
+    const { userDetail, setUserDetail } = useContext(UserContext);
 
     const UpdateFiles = useMutation(api.workspace.UpdateFiles);
+    const UpdateTokens = useMutation(api.users.UpdateToken);
     const convex = useConvex();
 
     const GetWorkspaceData = async () => {
@@ -60,6 +64,16 @@ const CodeView = () => {
             workspaceId: id as GenericId<"workspace">,
             files: AIresponse?.files,
         });
+
+        const token =
+            Number(userDetail?.token) -
+            Number(countToken(JSON.stringify(AIresponse)));
+
+        await UpdateTokens({
+            userId: userDetail?._id as GenericId<"users">,
+            tokenCount: token,
+        });
+
         setLoading(false);
     };
 
