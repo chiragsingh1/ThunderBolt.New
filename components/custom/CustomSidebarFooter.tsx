@@ -1,25 +1,29 @@
 import { CreditCard, HelpCircle, LogOut, Settings } from "lucide-react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+
+const options = [
+    {
+        name: "Settings",
+        icon: Settings,
+    },
+    {
+        name: "Help Center",
+        icon: HelpCircle,
+    },
+    {
+        name: "My Subscription",
+        icon: CreditCard,
+        path: "/pricing",
+    },
+    {
+        name: "Logout",
+        icon: LogOut,
+    },
+];
 
 const CustomSidebarFooter = () => {
-    const options = [
-        {
-            name: "Settings",
-            icon: Settings,
-        },
-        {
-            name: "Help Center",
-            icon: HelpCircle,
-        },
-        {
-            name: "My Subscription",
-            icon: CreditCard,
-        },
-        {
-            name: "Logout",
-            icon: LogOut,
-        },
-    ];
+    const router = useRouter();
 
     return (
         <div className="p-2 mb-10">
@@ -28,6 +32,11 @@ const CustomSidebarFooter = () => {
                     variant="ghost"
                     className="w-full flex justify-start my-3"
                     key={index}
+                    onClick={
+                        option.path?.length !== 0
+                            ? () => router.push(option.path as string)
+                            : () => {}
+                    }
                 >
                     <option.icon size={24} />
                     <span>{option.name}</span>

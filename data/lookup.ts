@@ -116,12 +116,5 @@ export default config;`,
             desc: "Designed for professionals who need to use ThunderBolt.New a few times per week.",
             price: 19.99,
         },
-        {
-            name: "Unlimted (License)",
-            tokens: "Unmited",
-            value: 999999999,
-            desc: "Designed for professionals who need to use ThunderBolt.New a few times per week.",
-            price: 49.99,
-        },
     ],
 };

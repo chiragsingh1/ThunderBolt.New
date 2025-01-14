@@ -34,7 +34,7 @@ const Hero = () => {
         setMessages([...messages, msg]);
 
         const workspaceId = await CreateWorkspace({
-            user: userDetail._id,
+            user: userDetail?._id,
             messages: [msg],
         });
 
@@ -53,7 +53,7 @@ const Hero = () => {
                     {lookup.HERO_DESC}
                 </p>
 
-                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-gray-800">
+                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#151515]">
                     <div className="flex gap-2">
                         <textarea
                             placeholder={lookup.INPUT_PLACEHOLDER}
