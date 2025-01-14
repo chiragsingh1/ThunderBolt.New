@@ -10,6 +10,7 @@ import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/custom/AppSidebar";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const Provider = ({ children }: { children: ReactNode }) => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -39,22 +40,29 @@ const Provider = ({ children }: { children: ReactNode }) => {
         <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}
         >
-            <UserContext.Provider value={{ userDetail, setUserDetail }}>
-                <MessagesContext.Provider value={{ messages, setMessages }}>
-                    <NextThemesProvider
-                        attribute="class"
-                        defaultTheme="dark"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <Header />
-                        <SidebarProvider defaultOpen={false}>
-                            <AppSidebar />
-                            {children}
-                        </SidebarProvider>
-                    </NextThemesProvider>
-                </MessagesContext.Provider>
-            </UserContext.Provider>
+            <PayPalScriptProvider
+                options={{
+                    clientId: process.env
+                        .NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
+                }}
+            >
+                <UserContext.Provider value={{ userDetail, setUserDetail }}>
+                    <MessagesContext.Provider value={{ messages, setMessages }}>
+                        <NextThemesProvider
+                            attribute="class"
+                            defaultTheme="dark"
+                            enableSystem
+                            disableTransitionOnChange
+                        >
+                            <Header />
+                            <SidebarProvider defaultOpen={false}>
+                                <AppSidebar />
+                                {children}
+                            </SidebarProvider>
+                        </NextThemesProvider>
+                    </MessagesContext.Provider>
+                </UserContext.Provider>
+            </PayPalScriptProvider>
         </GoogleOAuthProvider>
     );
 };

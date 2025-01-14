@@ -1,7 +1,36 @@
 import lookup from "@/data/lookup";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { useContext, useState } from "react";
+import { UserContext } from "@/context/UserContext";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { GenericId } from "convex/values";
+
+interface OptionType {
+    name: string;
+    tokens: string;
+    value: number;
+    desc: string;
+    price: number;
+}
 
 const PricingCard = () => {
+    const { userDetail, setUserDetail } = useContext(UserContext);
+    const [selectedPlan, setSelectedPlan] = useState<OptionType>();
+
+    const UpdateToken = useMutation(api.users.UpdateToken);
+
+    const onPaymentSuccess = async () => {
+        const token = Number(userDetail?.token) + Number(selectedPlan?.value);
+        console.log(token);
+
+        await UpdateToken({
+            tokenCount: token,
+            userId: userDetail?._id as GenericId<"users">,
+        });
+    };
+
     return (
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
             {lookup.PRICING_OPTIONS.map((option, index) => (
@@ -21,9 +50,29 @@ const PricingCard = () => {
                         <h2 className="font-bold text-4xl text-center my-6">
                             ${option.price}
                         </h2>
-                        <Button className="w-full">
+                        {/* <Button className="w-full">
                             Upgrade to {option.name}
-                        </Button>
+                        </Button> */}
+                        <PayPalButtons
+                            disabled={!userDetail}
+                            onApprove={() => onPaymentSuccess()}
+                            onCancel={() => console.log("Payment Cancelled")}
+                            style={{ layout: "horizontal", tagline: false }}
+                            createOrder={(data, actions) => {
+                                return actions.order.create({
+                                    purchase_units: [
+                                        {
+                                            amount: {
+                                                // @ts-ignore
+                                                value: option.price,
+                                                currency_code: "USD",
+                                            },
+                                        },
+                                    ],
+                                });
+                            }}
+                            onClick={() => setSelectedPlan(option)}
+                        />
                     </div>
                 </div>
             ))}

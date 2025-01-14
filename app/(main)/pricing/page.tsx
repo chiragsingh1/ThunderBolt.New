@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 const Pricing = () => {
     const { userDetail, setUserDetail } = useContext(UserContext);
+
     return (
         <div className="mt-10 flex flex-col items-center w-full p-10 md:px-48">
             <h2 className="font-bold text-5-xl">Pricing</h2>
@@ -20,7 +21,7 @@ const Pricing = () => {
                 style={{ backgroundColor: colors.BACKGROUND }}
             >
                 <h2 className="text-lg">
-                    <span className="font-bold ">{userDetail?.token}</span>
+                    <span className="font-bold ">{userDetail?.token}</span>{" "}
                     Token Left
                 </h2>
                 <div className="">
