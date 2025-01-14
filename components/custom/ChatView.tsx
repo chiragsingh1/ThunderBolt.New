@@ -15,6 +15,7 @@ import Prompt from "@/data/prompt";
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
 import { countToken } from "@/lib/utils";
+import { toast } from "sonner";
 
 const ChatView = () => {
     const { id } = useParams();
@@ -55,7 +56,8 @@ const ChatView = () => {
         const token =
             Number(userDetail?.token) -
             Number(countToken(JSON.stringify(AIresponse)));
-
+        // @ts-ignore
+        setUserDetail((prev: UserDetail) => ({ ...prev, token }));
         await UpdateTokens({
             userId: userDetail?._id as GenericId<"users">,
             tokenCount: token,
@@ -65,6 +67,10 @@ const ChatView = () => {
     };
 
     const onGenerate = async (input: any) => {
+        if (!userDetail || !userDetail.token || userDetail?.token < 10) {
+            toast("You don't have enough tokens to generate response");
+            return;
+        }
         setMessages((prev) => [...prev, { content: input, role: "user" }]);
         setUserInput("");
     };

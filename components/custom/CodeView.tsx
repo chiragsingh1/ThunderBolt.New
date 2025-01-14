@@ -69,6 +69,8 @@ const CodeView = () => {
             Number(userDetail?.token) -
             Number(countToken(JSON.stringify(AIresponse)));
 
+        // @ts-ignore
+        setUserDetail((prev: UserDetail) => ({ ...prev, token }));
         await UpdateTokens({
             userId: userDetail?._id as GenericId<"users">,
             tokenCount: token,
