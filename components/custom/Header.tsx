@@ -2,12 +2,17 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
     const { userDetail, setUserDetail } = useContext(UserContext);
+    const router = useRouter();
 
     return (
-        <div className="flex p-4 justify-between items-center">
+        <div
+            className="flex p-4 justify-between items-center"
+            onClick={() => router.push("/")}
+        >
             <div className="flex gap-2 items-center group cursor-pointer">
                 <Image
                     src="/logo.png"
