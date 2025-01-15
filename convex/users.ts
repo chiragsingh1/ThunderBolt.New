@@ -7,6 +7,7 @@ export const CreateUser = mutation({
         email: v.string(),
         picture: v.string(),
         uid: v.string(),
+        token: v.number(),
     },
     handler: async (ctx, args) => {
         // check if user already exists.
@@ -14,7 +15,7 @@ export const CreateUser = mutation({
             .query("users")
             .filter((q) => q.eq(q.field("email"), args.email))
             .collect();
-        console.log("LOG:User found: ", user);
+        // console.log("LOG:User found: ", user);
 
         if (user?.length === 0) {
             // create user
@@ -26,7 +27,7 @@ export const CreateUser = mutation({
                 token: 50000,
             });
 
-            console.log("LOG:New User created: ", newUser);
+            // console.log("LOG:New User created: ", newUser);
         }
     },
 });

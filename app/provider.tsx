@@ -26,10 +26,10 @@ const Provider = ({ children }: { children: ReactNode }) => {
         if (typeof window !== "undefined") {
             const user = JSON.parse(`${localStorage.getItem("user")}`);
 
-            // fetch user from db
             if (!user) {
                 router.push("/");
             }
+            // fetch user from db
             if (user) {
                 const result = await convex.query(api.users.GetUser, {
                     email: user.email,

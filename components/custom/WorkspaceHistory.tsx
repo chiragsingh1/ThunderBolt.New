@@ -18,19 +18,29 @@ interface WorkSpaceListType {
 
 const WorkspaceHistory = () => {
     const [workspaceList, setWorkspaceList] = useState<WorkSpaceListType[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const { toggleSidebar } = useSidebar();
     const { userDetail, setUserDetail } = useContext(UserContext);
     const convex = useConvex();
 
     useEffect(() => {
-        userDetail && GetAllWorkspaces();
-    }, [userDetail]);
+        if (userDetail?._id) {
+            GetAllWorkspaces();
+        }
+    }, [userDetail?._id]);
 
     const GetAllWorkspaces = async () => {
-        const result = await convex.query(api.workspace.GetAllWorkspaces, {
-            userId: userDetail?._id as GenericId<"users">,
-        });
-        setWorkspaceList(result);
+        try {
+            setIsLoading(true);
+            const result = await convex.query(api.workspace.GetAllWorkspaces, {
+                userId: userDetail?._id as GenericId<"users">,
+            });
+            setWorkspaceList(result);
+        } catch (error) {
+            console.error("Error fetching workspaces:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -39,7 +49,10 @@ const WorkspaceHistory = () => {
             <div>
                 {workspaceList &&
                     workspaceList?.map((workspace, i) => (
-                        <Link key={i} href={`/workspace/${workspace?._id}`}>
+                        <Link
+                            key={workspace?._id}
+                            href={`/workspace/${workspace?._id}`}
+                        >
                             <h2
                                 className="text-sm text-gray-400 mt-2 font-light hover:text-white cursor-pointer"
                                 onClick={toggleSidebar}
