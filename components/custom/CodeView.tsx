@@ -9,7 +9,6 @@ import {
     SandpackProvider,
     SandpackLayout,
     SandpackCodeEditor,
-    SandpackPreview,
     SandpackFileExplorer,
 } from "@codesandbox/sandpack-react";
 import axios from "axios";
@@ -18,6 +17,8 @@ import { GenericId } from "convex/values";
 import { Loader2Icon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import SandpackPreviewClient from "./SandpackPreviewClient";
+import { ActionContext } from "@/context/ActionContext";
 
 const CodeView = () => {
     const [activeTab, setActiveTab] = useState("code");
@@ -28,6 +29,7 @@ const CodeView = () => {
 
     const { messages, setMessages } = useContext(MessagesContext);
     const { userDetail, setUserDetail } = useContext(UserContext);
+    const { action, setAction } = useContext(ActionContext);
 
     const UpdateFiles = useMutation(api.workspace.UpdateFiles);
     const UpdateTokens = useMutation(api.users.UpdateToken);
@@ -46,6 +48,10 @@ const CodeView = () => {
     useEffect(() => {
         id && GetWorkspaceData();
     }, [id]);
+
+    useEffect(() => {
+        setActiveTab("preview");
+    }, [action]);
 
     const GenerateAICode = async () => {
         setLoading(true);
@@ -127,10 +133,7 @@ const CodeView = () => {
                         </>
                     ) : (
                         <>
-                            <SandpackPreview
-                                style={{ height: "80vh" }}
-                                showNavigator
-                            />
+                            <SandpackPreviewClient />
                         </>
                     )}
                 </SandpackLayout>
