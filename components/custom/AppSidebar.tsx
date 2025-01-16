@@ -13,7 +13,7 @@ import CustomSidebarFooter from "./CustomSidebarFooter";
 
 export function AppSidebar() {
     return (
-        <Sidebar>
+        <Sidebar variant="floating">
             <SidebarHeader className="p-5">
                 <Image
                     src="/logo.png"

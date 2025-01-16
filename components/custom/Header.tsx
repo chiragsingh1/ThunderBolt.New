@@ -25,8 +25,7 @@ const Header = () => {
         });
     };
 
-    useEffect(() => {}, [userDetail]);
-    console.log("first");
+    // useEffect(() => {}, [userDetail]);
 
     return (
         <div className="flex p-4 justify-between items-center">

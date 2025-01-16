@@ -10,7 +10,7 @@ import { GenericId } from "convex/values";
 import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Prompt from "@/data/prompt";
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
@@ -26,10 +26,12 @@ const ChatView = () => {
     const { toggleSidebar } = useSidebar();
 
     const [userInput, setUserInput] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const { messages, setMessages } = useContext(MessagesContext);
     const { userDetail, setUserDetail } = useContext(UserContext);
+
+    const isFetchingRef = useRef(false);
 
     const GetWorkspaceData = async () => {
         const result = await convex.query(api.workspace.GetWorkspace, {
@@ -39,50 +41,61 @@ const ChatView = () => {
     };
 
     const GetAIResponse = async () => {
+        if (isFetchingRef.current) return;
+        isFetchingRef.current = true;
+
         setLoading(true);
         const prompt = Prompt.CHAT_PROMPT + JSON.stringify(messages);
-        const result = await axios.post("/api/ai", {
-            prompt,
-        });
-        // console.log(result.data.result);
-        const AIresponse = { content: result.data.result, role: "ai" };
-        setMessages((prev) => [...prev, AIresponse]);
+        try {
+            const result = await axios.post("/api/ai", {
+                prompt,
+            });
+            const AIresponse = { content: result.data.result, role: "ai" };
 
-        await UpdateMessages({
-            messages: [...messages, AIresponse],
-            workspaceId: id as GenericId<"workspace">,
-        });
+            setMessages((prev) => [...prev, AIresponse]);
 
-        const token =
-            Number(userDetail?.token) -
-            Number(countToken(JSON.stringify(AIresponse)));
-        // @ts-ignore
-        setUserDetail((prev: UserDetail) => ({ ...prev, token }));
-        await UpdateTokens({
-            userId: userDetail?._id as GenericId<"users">,
-            tokenCount: token,
-        });
+            await UpdateMessages({
+                messages: [...messages, AIresponse],
+                workspaceId: id as GenericId<"workspace">,
+            });
 
-        setLoading(false);
+            const token =
+                Number(userDetail?.token) -
+                countToken(JSON.stringify(AIresponse));
+            // @ts-ignore
+            setUserDetail((prev) => ({ ...prev, token }));
+
+            await UpdateTokens({
+                userId: userDetail?._id as GenericId<"users">,
+                tokenCount: token,
+            });
+        } catch (error) {
+            console.error("Error fetching AI response:", error);
+            toast("Failed to generate AI response.");
+        } finally {
+            setLoading(false);
+            isFetchingRef.current = false;
+        }
     };
 
-    const onGenerate = async (input: any) => {
-        if (!userDetail || !userDetail.token || userDetail?.token < 10) {
-            toast("You don't have enough tokens to generate response");
+    const onGenerate = async (input: string) => {
+        if (!userDetail || !userDetail.token || userDetail.token < 10) {
+            toast("You don't have enough tokens to generate a response");
             return;
         }
-        setMessages((prev) => [...prev, { content: input, role: "user" }]);
+        const userMessage = { content: input, role: "user" };
+        setMessages((prev) => [...prev, userMessage]);
         setUserInput("");
     };
 
     useEffect(() => {
-        id && GetWorkspaceData();
+        if (id) GetWorkspaceData();
     }, [id]);
 
     useEffect(() => {
         if (messages?.length > 0) {
-            const role = messages[messages.length - 1].role;
-            if (role === "user") {
+            const lastMessage = messages[messages.length - 1];
+            if (lastMessage.role === "user" && !loading) {
                 GetAIResponse();
             }
         }

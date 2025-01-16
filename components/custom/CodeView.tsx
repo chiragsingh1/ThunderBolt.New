@@ -1,5 +1,5 @@
 "use client";
-import { MessagesContext } from "@/context/MessagesContext";
+import { Message, MessagesContext } from "@/context/MessagesContext";
 import { UserContext } from "@/context/UserContext";
 import { api } from "@/convex/_generated/api";
 import lookup from "@/data/lookup";
@@ -24,6 +24,10 @@ const CodeView = () => {
     const [activeTab, setActiveTab] = useState("code");
     const [loading, setLoading] = useState(false);
     const [files, setFiles] = useState(lookup.DEFAULT_FILE);
+    const [lastProcessedMessage, setLastProcessedMessage] = useState<Message>({
+        role: "",
+        content: "",
+    });
 
     const { id } = useParams();
 
@@ -46,7 +50,9 @@ const CodeView = () => {
     };
 
     useEffect(() => {
-        id && GetWorkspaceData();
+        if (id) {
+            GetWorkspaceData();
+        }
     }, [id]);
 
     useEffect(() => {
@@ -57,42 +63,54 @@ const CodeView = () => {
         setLoading(true);
         const PROMPT = prompt.CODE_GEN_PROMPT + " " + JSON.stringify(messages);
 
-        const result = await axios.post("/api/gen-ai-code", {
-            prompt: PROMPT,
-        });
+        try {
+            const result = await axios.post("/api/gen-ai-code", {
+                prompt: PROMPT,
+            });
+            const AIresponse = result.data;
+            console.log(AIresponse);
 
-        const AIresponse = result.data;
-        console.log(AIresponse);
+            const mergedFiles = {
+                ...lookup.DEFAULT_FILE,
+                ...AIresponse?.files,
+            };
+            setFiles(mergedFiles);
+            AIresponse?.files &&
+                (await UpdateFiles({
+                    workspaceId: id as GenericId<"workspace">,
+                    files: AIresponse?.files,
+                }));
 
-        const mergedFiles = { ...lookup.DEFAULT_FILE, ...AIresponse?.files };
-        setFiles(mergedFiles);
-        await UpdateFiles({
-            workspaceId: id as GenericId<"workspace">,
-            files: AIresponse?.files,
-        });
+            const token =
+                Number(userDetail?.token) -
+                Number(countToken(JSON.stringify(AIresponse)));
 
-        const token =
-            Number(userDetail?.token) -
-            Number(countToken(JSON.stringify(AIresponse)));
-
-        // @ts-ignore
-        setUserDetail((prev: UserDetail) => ({ ...prev, token }));
-        await UpdateTokens({
-            userId: userDetail?._id as GenericId<"users">,
-            tokenCount: token,
-        });
-
-        setLoading(false);
+            // @ts-ignore
+            setUserDetail((prev: UserDetail) => ({ ...prev, token }));
+            await UpdateTokens({
+                userId: userDetail?._id as GenericId<"users">,
+                tokenCount: token,
+            });
+        } catch (error) {
+            console.error("Error generating AI code:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    // Trigger GenerateAICode only for new user messages
     useEffect(() => {
         if (messages?.length > 0) {
-            const role = messages[messages.length - 1].role;
-            if (role === "user") {
+            const latestMessage = messages[messages.length - 1];
+            if (
+                latestMessage !== lastProcessedMessage &&
+                latestMessage.role === "user"
+            ) {
+                setLastProcessedMessage(latestMessage);
                 GenerateAICode();
             }
         }
-    }, [messages]);
+    }, [messages, lastProcessedMessage]);
 
     return (
         <div className="relative">
