@@ -10,6 +10,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Cover } from "../ui/cover";
 
 const Hero = () => {
     const [userInput, setUserInput] = useState("");
@@ -51,13 +52,15 @@ const Hero = () => {
 
     return (
         <div className="min-h-screen flex flex-col justify-center -mt-20">
-            <div className="flex flex-col items-center gap-2 w-full px-4 md:px-6">
+            <div className="flex flex-col items-center gap-2 w-full px-4 md:px-6 drop-shadow-xl">
                 <h2 className="font-bold text-5xl text-center">
-                    {lookup.HERO_HEADING}
+                    {lookup.HERO_HEADING} at
                 </h2>
-                <p className="text-gray-400 font-medium text-center max-w-xl mx-auto">
-                    {lookup.HERO_DESC}
-                </p>
+                <Cover>
+                    <h2 className="font-bold text-5xl text-center">
+                        {lookup.HERO_DESC}
+                    </h2>
+                </Cover>
 
                 <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#151515]">
                     <div className="flex gap-2">

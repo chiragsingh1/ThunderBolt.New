@@ -7,8 +7,8 @@ export default {
         "Create Login Signup Screen",
     ],
 
-    HERO_HEADING: "What do you want to build?",
-    HERO_DESC: "Prompt, run, edit, and deploy full-stack web apps.",
+    HERO_HEADING: "Build Stunning Websites with AI",
+    HERO_DESC: "Warp Speed",
     INPUT_PLACEHOLDER: "What you want to build?",
 
     SIGNIN_HEADING: "Continue With ThunderBolt.New ⚡",
