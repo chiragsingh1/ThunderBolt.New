@@ -146,7 +146,7 @@ const ChatView = () => {
                         onClick={toggleSidebar}
                     />
                 )}
-                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#151515]">
+                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#27272a]">
                     <div className="flex gap-2">
                         <textarea
                             placeholder={lookup.INPUT_PLACEHOLDER}

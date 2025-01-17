@@ -38,8 +38,8 @@ const Header = () => {
                     className="group-hover:scale-125 transition-transform group-hover:-rotate-6"
                     onClick={() => router.push("/")}
                 />
-                <h2 className="text-2xl font-mono transition group-hover:translate-x-1">
-                    ThunderBolt.New
+                <h2 className="text-xl lg:text-2xl transition group-hover:translate-x-1 font-bold">
+                    ThunderBolt
                 </h2>
             </div>
             {!userDetail?.name && (
