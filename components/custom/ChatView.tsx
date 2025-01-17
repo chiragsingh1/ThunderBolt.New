@@ -136,7 +136,7 @@ const ChatView = () => {
             </div>
             {/* Input Section */}
             <div className="flex gap-2 items-end">
-                {userDetail && (
+                {/* {userDetail && (
                     <Image
                         src={userDetail?.picture}
                         alt="user"
@@ -145,7 +145,7 @@ const ChatView = () => {
                         className="rounded-full cursor-pointer hover:animate-spin"
                         onClick={toggleSidebar}
                     />
-                )}
+                )} */}
                 <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#27272a]">
                     <div className="flex gap-2">
                         <textarea
@@ -163,9 +163,19 @@ const ChatView = () => {
                             />
                         )}
                     </div>
-                    <div>
+                    {userDetail && (
+                        <Image
+                            src={userDetail?.picture}
+                            alt="user"
+                            width={30}
+                            height={30}
+                            className="rounded-full cursor-pointer hover:animate-spin"
+                            onClick={toggleSidebar}
+                        />
+                    )}
+                    {/* <div>
                         <Link className="w-5 h-5 hover:text-blue-500 transition-colors cursor-pointer" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

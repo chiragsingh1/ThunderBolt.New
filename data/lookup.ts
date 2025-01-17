@@ -1,15 +1,15 @@
 export default {
     SUGGESTIONS: [
-        "Create ToDo App in React",
-        "Create Budget Track App",
-        "Create Gym Managment Portal Dashboard",
-        "Create Quizz App On History",
-        "Create Login Signup Screen",
+        "Create a Todo App",
+        "Create a Budget Tracking App",
+        "Create a Gym Management Portal Dashboard",
+        "Create a Quiz App On Historical Events",
+        "Create a SaaS Landing Page with Microinteractions",
     ],
 
     HERO_HEADING: "Build Stunning Websites with AI",
     HERO_DESC: "Warp Speed",
-    INPUT_PLACEHOLDER: "What you want to build?",
+    INPUT_PLACEHOLDER: "What do you want to build?",
 
     SIGNIN_HEADING: "Continue With ThunderBolt.New ⚡",
     SIGNIN_SUBHEADING:

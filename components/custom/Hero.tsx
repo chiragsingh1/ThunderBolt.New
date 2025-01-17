@@ -51,18 +51,18 @@ const Hero = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-center -mt-20">
+        <div className="min-h-screen flex flex-col justify-center -mt-0 md:-mt-20">
             <div className="flex flex-col items-center gap-2 w-full px-4 md:px-6 drop-shadow-xl">
-                <h2 className="font-bold text-5xl text-center">
+                <h2 className="font-bold text-3xl lg:text-5xl text-center">
                     {lookup.HERO_HEADING} at
                 </h2>
                 <Cover>
-                    <h2 className="font-bold text-5xl text-center">
+                    <h2 className="font-bold text-3xl lg:text-5xl text-center">
                         {lookup.HERO_DESC}
                     </h2>
                 </Cover>
 
-                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#27272a]">
+                <div className="p-6 border rounded-xl max-w-2xl w-full mt-3 bg-[#3d3d3a]">
                     <div className="flex gap-2">
                         <textarea
                             placeholder={lookup.INPUT_PLACEHOLDER}
@@ -81,7 +81,7 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-wrap max-w-2xl mx-auto pt-5 justify-center gap-2">
+            <div className="flex flex-col justify-center text-center md:flex-row flex-wrap max-w-2xl mx-auto pt-5 md:justify-center gap-2">
                 {lookup.SUGGESTIONS.map((suggestion, index) => (
                     <h2
                         key={index}

@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${mont.className} antialiased bg-[#18181b]`}>
+            <body className={`${mont.className} antialiased bg-[#262624]`}>
                 <ConvexClientProvider>
                     <Provider>
                         {children}

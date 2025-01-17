@@ -43,26 +43,29 @@ const Header = () => {
                 </h2>
             </div>
             {!userDetail?.name && (
-                <div
-                    className="flex gap-5"
-                    style={{ position: "relative", zIndex: 10 }}
-                >
+                <div className="flex gap-5" style={{ position: "relative" }}>
                     <Button
                         variant="ghost"
                         onClick={() => {
                             setOpenDialog(true);
                         }}
+                        className="hover:bg-gray-500 transition-colors"
                     >
                         Sign In
                     </Button>
-                    <Button className="hover:bg-blue-900 transition-colors bg-blue-500 text-white">
+                    {/* <Button
+                        className="hover:bg-blue-900 transition-colors bg-blue-500 text-white hidden md:block"
+                        onClick={() => {
+                            setOpenDialog(true);
+                        }}
+                    >
                         Get Started
-                    </Button>
+                    </Button> */}
                 </div>
             )}
             {userDetail?.name && (
                 <div className="flex gap-5">
-                    {path !== "/" && (
+                    {path !== "/" && path !== "/pricing" && (
                         <>
                             <Button
                                 variant="ghost"
@@ -71,7 +74,7 @@ const Header = () => {
                                 <DownloadIcon /> Export
                             </Button>
                             <Button
-                                className="hover:bg-blue-900 transition-colors bg-blue-500 text-white"
+                                className="hover:bg-blue-900 transition-colors bg-blue-500 text-white hidden md:inline-flex"
                                 onClick={() => onAction("deploy")}
                             >
                                 <RocketIcon /> Deploy
@@ -82,8 +85,8 @@ const Header = () => {
                     <Image
                         src={userDetail?.picture}
                         alt="user"
-                        width={30}
-                        height={30}
+                        width={40}
+                        height={40}
                         className="rounded-full cursor-pointer hover:animate-spin z-10"
                         onClick={toggleSidebar}
                     />

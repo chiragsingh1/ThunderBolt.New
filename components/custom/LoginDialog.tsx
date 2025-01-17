@@ -50,7 +50,7 @@ const LoginDialog = ({ openDialog, closeDialog }: Props) => {
                 email: user?.email,
                 picture: user?.picture,
                 uid: uuidv4(),
-                token: 50000,
+                token: 10000,
             });
 
             // Get the Convex user data
@@ -79,9 +79,9 @@ const LoginDialog = ({ openDialog, closeDialog }: Props) => {
 
     return (
         <Dialog open={openDialog} onOpenChange={closeDialog}>
-            <DialogContent>
+            <DialogContent className="max-w-80 md:max-w-max rounded-xl">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
+                    <DialogTitle className="text-center leading-5 md:leading-3">
                         {lookup.SIGNIN_HEADING}
                     </DialogTitle>
                 </DialogHeader>

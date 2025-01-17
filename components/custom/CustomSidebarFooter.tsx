@@ -6,10 +6,12 @@ const options = [
     {
         name: "Settings",
         icon: Settings,
+        path: "",
     },
     {
         name: "Help Center",
         icon: HelpCircle,
+        path: "",
     },
     {
         name: "My Subscription",
@@ -19,6 +21,7 @@ const options = [
     {
         name: "Logout",
         icon: LogOut,
+        path: "",
     },
 ];
 
