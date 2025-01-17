@@ -45,7 +45,7 @@ const Hero = () => {
             messages: [msg],
         });
 
-        console.log("LOG: workspaceId", workspaceId);
+        // console.log("LOG: workspaceId", workspaceId);
 
         router.push(`/workspace/${workspaceId}`);
     };

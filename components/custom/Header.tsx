@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useRouter, usePathname } from "next/navigation";
 import { DownloadIcon, RocketIcon } from "lucide-react";
@@ -9,8 +9,8 @@ import { ActionContext } from "@/context/ActionContext";
 import LoginDialog from "./LoginDialog";
 
 const Header = () => {
-    const { userDetail, setUserDetail } = useContext(UserContext);
-    const { action, setAction }: any = useContext(ActionContext);
+    const { userDetail } = useContext(UserContext);
+    const { setAction } = useContext(ActionContext);
 
     const [openDialog, setOpenDialog] = useState(false);
 

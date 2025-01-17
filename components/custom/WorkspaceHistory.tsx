@@ -11,7 +11,9 @@ import { useSidebar } from "../ui/sidebar";
 interface WorkSpaceListType {
     _id: GenericId<"workspace">;
     _creationTime: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fileData?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     messages: any;
     user: GenericId<"users">;
 }

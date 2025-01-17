@@ -7,7 +7,7 @@ import lookup from "@/data/lookup";
 import axios from "axios";
 import { useConvex, useMutation } from "convex/react";
 import { GenericId } from "convex/values";
-import { ArrowRight, Link, Loader2Icon } from "lucide-react";
+import { ArrowRight, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -62,7 +62,7 @@ const ChatView = () => {
             const token =
                 Number(userDetail?.token) -
                 countToken(JSON.stringify(AIresponse));
-            // @ts-ignore
+
             setUserDetail((prev) => ({ ...prev, token }));
 
             await UpdateTokens({

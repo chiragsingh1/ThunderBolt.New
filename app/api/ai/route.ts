@@ -1,7 +1,7 @@
 import { chatSession } from "@/config/gemini";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
     const { prompt } = await req.json();
 
     try {

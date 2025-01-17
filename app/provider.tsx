@@ -11,13 +11,24 @@ import { api } from "@/convex/_generated/api";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/custom/AppSidebar";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { ActionContext } from "@/context/ActionContext";
+import { ActionContext, ActionType } from "@/context/ActionContext";
 import { useRouter } from "next/navigation";
+import { GenericId } from "convex/values";
 
 const Provider = ({ children }: { children: ReactNode }) => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
-    const [action, setAction] = useState<any>(null);
+    const [userDetail, setUserDetail] = useState<UserDetail>({
+        _id: "" as GenericId<"users">,
+        _creationTime: 0,
+        name: "",
+        email: "",
+        picture: "",
+        uid: "",
+    });
+    const [action, setAction] = useState<ActionType>({
+        actionType: "",
+        timeStamp: 0,
+    });
 
     const router = useRouter();
     const convex = useConvex();

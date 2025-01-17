@@ -16,7 +16,7 @@ const SandpackPreviewClient = () => {
         const client = previewRef.current?.getClient();
         if (client) {
             // console.log(client);
-            // @ts-ignore
+            // @ts-expect-error
             const res = await client.getCodeSandboxURL();
             // console.log(res);
             if (action?.actionType === "deploy") {

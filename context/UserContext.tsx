@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { GenericId } from "convex/values";
 
 export interface UserDetail {
@@ -13,7 +13,7 @@ export interface UserDetail {
 
 interface UserContextType {
     userDetail: UserDetail | null;
-    setUserDetail: (user: UserDetail | null) => void;
+    setUserDetail: Dispatch<SetStateAction<UserDetail>>;
 }
 
 export const UserContext = createContext<UserContextType>({

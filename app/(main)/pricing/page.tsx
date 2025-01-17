@@ -7,7 +7,7 @@ import lookup from "@/data/lookup";
 import { useContext } from "react";
 
 const Pricing = () => {
-    const { userDetail, setUserDetail } = useContext(UserContext);
+    const { userDetail } = useContext(UserContext);
 
     return (
         <div className="mt-10 flex flex-col items-center w-full p-10 md:px-48">

@@ -11,7 +11,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useContext, MouseEvent } from "react";
 import { UserContext } from "@/context/UserContext";
-import { useConvex, useMutation, useQuery } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { v4 as uuidv4 } from "uuid";
 

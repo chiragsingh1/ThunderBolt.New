@@ -23,7 +23,7 @@ const PricingCard = () => {
 
     const onPaymentSuccess = async () => {
         const token = Number(userDetail?.token) + Number(selectedPlan?.value);
-        console.log(token);
+        // console.log(token);
 
         await UpdateToken({
             tokenCount: token,
@@ -63,7 +63,7 @@ const PricingCard = () => {
                                     purchase_units: [
                                         {
                                             amount: {
-                                                // @ts-ignore
+                                                // @ts-expect-error
                                                 value: option.price,
                                                 currency_code: "USD",
                                             },

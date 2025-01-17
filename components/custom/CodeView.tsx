@@ -1,6 +1,6 @@
 "use client";
 import { Message, MessagesContext } from "@/context/MessagesContext";
-import { UserContext } from "@/context/UserContext";
+import { UserContext, UserDetail } from "@/context/UserContext";
 import { api } from "@/convex/_generated/api";
 import lookup from "@/data/lookup";
 import prompt from "@/data/prompt";
@@ -68,7 +68,7 @@ const CodeView = () => {
                 prompt: PROMPT,
             });
             const AIresponse = result.data;
-            console.log(AIresponse);
+            // console.log(AIresponse);
 
             const mergedFiles = {
                 ...lookup.DEFAULT_FILE,
@@ -85,7 +85,6 @@ const CodeView = () => {
                 Number(userDetail?.token) -
                 Number(countToken(JSON.stringify(AIresponse)));
 
-            // @ts-ignore
             setUserDetail((prev: UserDetail) => ({ ...prev, token }));
             await UpdateTokens({
                 userId: userDetail?._id as GenericId<"users">,
@@ -117,13 +116,13 @@ const CodeView = () => {
             <div className="bg-[#181818] w-full p-2 border">
                 <div className="flex items-center flex-wrap shrink-0 bg-black p-1 w-[140px] gap-2 justify-center rounded-full">
                     <h2
-                        className={`text-sm cursor-pointer ${activeTab === "code" && "text-blue-500 bg-blue-500 bg-opacity-25 p-1 px-2 rounded-full"}`}
+                        className={`text-sm cursor-pointer ${activeTab === "code" ? "text-blue-500 bg-blue-500 bg-opacity-25 p-1 px-2 rounded-full" : ""}`}
                         onClick={() => setActiveTab("code")}
                     >
                         Code
                     </h2>
                     <h2
-                        className={`text-sm cursor-pointer ${activeTab === "preview" && "text-blue-500 bg-blue-500 bg-opacity-25 p-1 px-2 rounded-full"}`}
+                        className={`text-sm cursor-pointer ${activeTab === "preview" ? "text-blue-500 bg-blue-500 bg-opacity-25 p-1 px-2 rounded-full" : ""}`}
                         onClick={() => setActiveTab("preview")}
                     >
                         Preview
