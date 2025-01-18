@@ -8,14 +8,28 @@
 - Subscription plans with PayPal integration.
 - Workspace history for quick navigation to older chats.
 - Pricing page to view current subscriptions and remaining tokens.
+- Deploy using Sandbox URL and share among friends your new creation.
 
 ## Live Demo
 [ThunderBolt Live Demo](https://thunder-bolt-new.vercel.app/)
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/948522a0-49ea-4006-a1b4-319e06b63287)
+
 ![image](https://github.com/user-attachments/assets/b9de38bb-7727-4b92-a1dc-de1070eab60e)
+
+### LeetCode Clone created by ThunderBolt!
+![image](https://github.com/user-attachments/assets/85a59f4a-5aa6-47f1-9457-488770dd3600)
+
+![image](https://github.com/user-attachments/assets/0a1d2a81-9814-4ac1-924f-bb94e270fd47)
+
+### Full control over the source code, edit, run and test at the same time in the same browser tab!
+![image](https://github.com/user-attachments/assets/c1cf5e82-474f-4de7-ad57-9775f36759c1)
+
+### Jump to previous thunderbolts from the Sidebar
 ![image](https://github.com/user-attachments/assets/032a1528-cd98-4dc0-a5d3-6a867388bf1f)
+
+### Access remaining tokens and buy more tokens very easily with PayPal!
 ![image](https://github.com/user-attachments/assets/385d8fe3-8e97-4d05-96f2-fcb4a8cc5c67)
 
 ## Prerequisites
