@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ThunderBolt
+
+**ThunderBolt** is an AI-powered application that converts prompts into fully functional websites with ease and speed. Leveraging the Google Gemini API, ThunderBolt streamlines web development by offering live previews and code snippets using CodeSandbox. The app also features a PayPal payment gateway for subscription management and a sidebar for workspace history.
+
+## Features
+- Generate websites from simple prompts using the Google Gemini API.
+- Preview live code and design via CodeSandbox integration.
+- Subscription plans with PayPal integration.
+- Workspace history for quick navigation to older chats.
+- Pricing page to view current subscriptions and remaining tokens.
+
+## Live Demo
+[ThunderBolt Live Demo](https://thunder-bolt-new.vercel.app/)
+
+## Screenshots
+![image](https://github.com/user-attachments/assets/948522a0-49ea-4006-a1b4-319e06b63287)
+![image](https://github.com/user-attachments/assets/b9de38bb-7727-4b92-a1dc-de1070eab60e)
+![image](https://github.com/user-attachments/assets/032a1528-cd98-4dc0-a5d3-6a867388bf1f)
+![image](https://github.com/user-attachments/assets/385d8fe3-8e97-4d05-96f2-fcb4a8cc5c67)
+
+## Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm (comes with Node.js) or yarn
+- A [Convex project](https://convex.dev/) and its API key
+- Google Gemini API Key
+- PayPal Client ID
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up the project locally:
 
+### 1. Clone the Repository
+```bash
+git clone https://github.com/chiragsingh1/ThunderBolt.New.git
+cd ThunderBolt.New
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Set Environment Variables
+Create a `.env.local` file in the root directory and add the following:
+```env
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id
+CONVEX_DEPLOYMENT=your-convex-deployment
+NEXT_PUBLIC_CONVEX_URL=your-convex-url
+NEXT_PUBLIC_GEMINI_API_KEY=your-gemini-api-key
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your-paypal-client-id
+```
+
+### 4. Connect to Convex
+Ensure you have a Convex project set up. Run the following command in the terminal to connect your project:
+```bash
+npx convex dev
+```
+
+### 5. Run the Development Server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to view the application in development mode.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Runs the application in production mode.
+- `npm run lint`: Lints the codebase.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technologies Used
+- **Next.js**: Framework for server-side rendering and static site generation.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Google Gemini API**: For AI-powered website generation.
+- **CodeSandbox**: For live code previews.
+- **Convex**: Backend-as-a-service for state management.
+- **PayPal SDK**: For payment gateway integration.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
+---
+Feel free to contribute to ThunderBolt by submitting issues or pull requests on the GitHub repository. Happy coding!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
